@@ -2,6 +2,10 @@
 
 This is a fork of the Alexandria chess engine.
 
+All options must be set at compile time by modifying types.h
+
+Development happens at: https://github.com/bftjoe/Alexandria/tree/Andrea
+
 ## Building
 > [!WARNING]
 > Due to a bug present in older gcc versions compiling with versions < 12 isn't officially supported.
