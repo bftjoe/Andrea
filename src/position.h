@@ -10,6 +10,7 @@
 #include <cstdint>
 #include "move.h"
 #include "types.h"
+#include "uci.h"
 
 #ifdef __GNUC__
 #define PACK(__Declaration__) __Declaration__ __attribute__((__packed__))
@@ -46,6 +47,7 @@ public:
     int castleperm = 0;
     // unique  hashkey  that encodes a board position
     ZobristKey posKey = 0ULL;
+    ZobristKey pawnKey = 0ULL;
     // stores the state of the board  rollback purposes
     int historyStackHead = 0;
     BoardState    history[MAXPLY];
@@ -106,12 +108,8 @@ public:
     }
 };
 
-struct PvTable {
-    int pvLength[MAXDEPTH + 1];
-    int pvArray[MAXDEPTH + 1][MAXDEPTH + 1];
-};
-
 extern Bitboard SQUARES_BETWEEN_BB[64][64];
+
 // Hold the data from the uci input to set search parameters and some search data to populate the uci output
 struct SearchInfo {
     // search start time
@@ -167,8 +165,8 @@ constexpr char ascii_pieces[13] = "PNBRQKpnbrqk";
 // NNUE
 extern NNUE nnue;
 
-// Generates zobrist key from scratch
 [[nodiscard]] ZobristKey GeneratePosKey(const Position* pos);
+[[nodiscard]] ZobristKey GeneratePawnKey(const Position* pos);
 // parse FEN string
 void ParseFen(const std::string& command, Position* pos);
 // Get fen string from board
